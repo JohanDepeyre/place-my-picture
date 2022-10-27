@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ApplicationPhoto.Web.UI.Models.Voyage>
+
+@{
+    ViewData["Title"] = "Mes voyages";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Nouveau voyage</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Voyage
+            </th>
+            <th>
+                Début voyage
+            </th>
+            <th>
+                Fin voyage
+            </th>
+            <th>
+               Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomVoyage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateVoyageDebut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateVoyageFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionVoyage)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VoyageId">Editer</a> |
+                <a asp-action="Details" asp-route-id="@item.VoyageId">Details (Visualiser les photos)</a> |
+                <a asp-action="Delete" asp-route-id="@item.VoyageId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

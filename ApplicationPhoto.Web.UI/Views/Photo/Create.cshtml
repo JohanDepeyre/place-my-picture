@@ -1,0 +1,87 @@
+﻿@model ApplicationPhoto.Web.UI.Models.Photo
+
+@{
+    ViewData["Title"] = "Create";
+   var listItemsVoyage = this.ViewBag.ListeVoyage;
+    var listItemsCategorie = this.ViewBag.ListeCategorie;
+}
+			<div class="row">
+				<div class="col-md-5 col-md-pull-7">
+						<div class="booking-form">
+						 
+								<form asp-action="Create" enctype="multipart/form-data" asp-action="Upload">
+									<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+										
+									<div class="form-group">
+										<label asp-for="ImageUrl" class="form-label">Insérer image</label>
+										  <input asp-for="MyImage" class="form-control"/>
+
+										<span asp-validation-for="MyImage" class="text-danger"></span>
+									</div>
+									<div class="row">
+									  <div class="form-group">
+										  <label  class="control-label">Catégorie</label>
+										<select asp-for="CategorieId" asp-items="listItemsCategorie" ></select>
+									</div>
+								</div>
+								<div class="row">
+									  <div class="form-group">
+										  <label  class="control-label">Voyage</label>
+										<select asp-for="VoyageId" asp-items="listItemsVoyage" ></select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group">
+										<label asp-for="Description" class="control-label"></label>
+										<textarea cols="5" rows="6" asp-for="Description" class="form-control"></textarea>
+										<span asp-validation-for="Description" class="text-danger"></span>
+									</div>
+								</div>
+								@{
+									if (ViewBag.LatLon ==false){
+										<div class="row">
+									<div class="form-group">
+										<label class="control-label">La photo ne contient pas de coordonnées GPS, selectionnez une adresse</label>
+										<label class="control-label"></label>
+										<input type="date" asp-for="DatePicture" class="form-control"/>
+										<span asp-validation-for="DatePicture" class="text-danger"></span>
+									</div>
+								</div>
+
+									}
+									if (ViewBag.Date ==false){
+										<div class="row">
+									<div class="form-group">
+										<label class="control-label">La photo ne contient pas de date, veuillez en saisir une</label>
+										<label asp-for="DatePicture" class="control-label"></label>
+										<input type="date" asp-for="DatePicture" class="form-control"/>
+										<span asp-validation-for="DatePicture" class="text-danger"></span>
+									</div>
+								</div>
+
+									}
+								}
+								<div class="form-btn">
+										<input type="submit" value="Ajouter Image" class="submit-btn" />
+									</div>
+							
+							</form>
+						</div>
+					</div>
+					<div class="col-md-7 col-md-push-5">
+						<div class="booking-cta">
+							<h1>Ajouter votre photo</h1>
+							<p>Ajouter votre photo dans votre portofolio de voyage, vous pouvez saisir un catégorie afin de
+								retrouver plus facilement vos souvenirs et ajouter un description pour ne rien oublier de vos plus
+								instants
+							</p>
+						</div>
+					</div>
+
+				
+	
+	</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

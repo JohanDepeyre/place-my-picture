@@ -1,0 +1,43 @@
+﻿@model ApplicationPhoto.Web.UI.Models.Voyage
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Voyage</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomVoyage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomVoyage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateVoyageDebut)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateVoyageDebut)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateVoyageFin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateVoyageFin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DescriptionVoyage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DescriptionVoyage)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.VoyageId">Editer</a> |
+     <a asp-controller="Photo" asp-action="Index" asp-route-id="@Model?.VoyageId">Voir photo(s)</a> |
+    <a asp-action="Index">Retour à la liste des voyages</a>
+</div>

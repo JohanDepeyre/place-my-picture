@@ -1,0 +1,45 @@
+﻿@model ApplicationPhoto.Web.UI.Models.Voyage
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Voyage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomVoyage" class="control-label"></label>
+                <input asp-for="NomVoyage" class="form-control" />
+                <span asp-validation-for="NomVoyage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateVoyageDebut" class="control-label"></label>
+                <input asp-for="DateVoyageDebut" class="form-control" />
+                <span asp-validation-for="DateVoyageDebut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateVoyageFin" class="control-label"></label>
+                <input asp-for="DateVoyageFin" class="form-control" />
+                <span asp-validation-for="DateVoyageFin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescriptionVoyage" class="control-label"></label>
+                <input asp-for="DescriptionVoyage" class="form-control" />
+                <span asp-validation-for="DescriptionVoyage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
