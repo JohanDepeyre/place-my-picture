@@ -39,7 +39,7 @@ function GenererCarte(json1) {
 
                         var imageIcon = L.icon({
                             iconUrl: urlIcon,
-                            iconSize: [50, 50], // size of the icon
+                            iconSize: [30, 30], // size of the icon
                             popupAnchor: [0, -15]
                         });
 

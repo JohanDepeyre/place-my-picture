@@ -19,13 +19,12 @@ namespace ApplicationPhoto.Web.UI.Models
         public DateTime? DatePicture { get; set; }
         [NotMapped]
 
-        [Required(ErrorMessage = "Please select a file.")]
+        [Required(ErrorMessage = "Selectionner un fichier.")]
         [DataType(DataType.Upload)]
         [MaxFileSize(5 * 1024 * 1024)]
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile MyImage { set; get; }
         [Required(ErrorMessage = "Veuillez saisir une description")]
-
         public string? Description   { get; set; }
       
         public int CategorieId { get; set; }

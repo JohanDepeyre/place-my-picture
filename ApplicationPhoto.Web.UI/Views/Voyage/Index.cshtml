@@ -4,7 +4,7 @@
     ViewData["Title"] = "Mes voyages";
 }
 
-<h1>Index</h1>
+<h1>Mes voyages</h1>
 
 <p>
     <a asp-action="Create">Nouveau voyage</a>
@@ -45,7 +45,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VoyageId">Editer</a> |
                 <a asp-action="Details" asp-route-id="@item.VoyageId">Details (Visualiser les photos)</a> |
-                <a asp-action="Delete" asp-route-id="@item.VoyageId">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.VoyageId">Supprimer</a>
             </td>
         </tr>
 }

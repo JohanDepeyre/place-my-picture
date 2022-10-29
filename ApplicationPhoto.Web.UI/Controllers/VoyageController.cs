@@ -14,6 +14,7 @@ using ApplicationPhoto.Web.UI.Utils;
 using System.Linq.Expressions;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
@@ -81,13 +82,18 @@ namespace ApplicationPhoto.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VoyageId,NomVoyage,DateVoyageDebut,DateVoyageFin,DescriptionVoyage")] Voyage voyage)
         {
-            ;
-            if (voyage !=null)
+            ModelState.Remove("IdUser");
+            if (ModelState.IsValid)
+            {
+
+                if (voyage !=null)
             {
                 voyage.IdUser = User.Identity.GetUserId();
                 unitOfWork.VoyageRepository.Insert(voyage);
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
+            }
+
             }
             return View(voyage);
         }

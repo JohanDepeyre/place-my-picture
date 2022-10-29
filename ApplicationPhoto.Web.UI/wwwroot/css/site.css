@@ -1,15 +1,22 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
     background-color: #ecf0f1;
+    height: 100%;
+    margin: 0;
+}
+
+
+.full-height {
+    height: 100%;
 }
 
 .containerMain {
@@ -128,11 +135,12 @@ body {
         font-size: 16px;
         color: #FF7F3F;
     }
-/*----*/
+/*--MAP--*/
 #map {
-    width: 92%;
-    height: 600px;
-    margin:auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    position: absolute;
 }
 
 /* css to customize Leaflet default styles  */
@@ -148,36 +156,31 @@ body {
     background-color: #e74c3c;
     color: #FF7F3F;
 }
+
     .backgroundNav a {
         color: #ecf0f1;
         font-weight: 500;
     }
 
+header {
+    box-shadow: 0 4px 2px -2px gray;
+}
 
-.logo{
-    width:20%;
-    height:20%;
+.logo {
+    width: 20%;
+    height: 20%;
 }
-/*liste image*/
-.tailleImage{
-    width:50%;
-    height:50%;
-}
+
 
 /*/legende */
 .taille_image_legende {
-    width:90px;
-    height:90px;
+    width: 90px;
+    height: 90px;
 }
 
 /*footer*/
 
-.footerRedefine {
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px;
-}
+
 
 /*Caroussel*/
 .carousel-control-prev-icon,
@@ -196,16 +199,49 @@ body {
 
 /*footer*/
 footer {
+    position: fixed;
     background-color: #bdc3c7;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }
 
 /*page login*/
 .googleSubmit {
     background-image: url('../img/btn_google_signin_dark_normal_web.png');
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     border: 0;
     display: block;
     height: 46px;
     width: 191px;
-    color:transparent;
+    color: transparent;
+}
+/*liste photo*/
+
+.tailleCard {
+    width: 20rem;
+    margin: 1rem;
+}
+
+.tailleImage {
+    width: 100%;
+    height: 50%;
+    margin: auto;
+    padding-top: 1rem;
+}
+/*jumbo tron*/
+.jumboImage {
+    height: 600px;
+}
+
+.jumboImageS1 {
+    background-image: url('../img/screen1.png');
+  
+}
+.jumboImageS2 {
+    background-image: url('../img/screen2.png');
+}
+.jumboImageS3 {
+    background-image: url('../img/screen3.png');
 }

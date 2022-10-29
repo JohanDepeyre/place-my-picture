@@ -1,17 +1,23 @@
 ﻿@model IEnumerable<ApplicationPhoto.Web.UI.Models.Photo>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Carte";
    
-	
+
+    Layout = "_Layout_carte";
+
 	var listItemsVoyage = this.ViewBag.ListeVoyage;
     var listItemsCategorie = this.ViewBag.ListeCategorie;
 }
-<div class="container">
-<div class="row">
+<div  class="full-height">
+    <div id="map"></div>
     <div class="s002">
-        <form asp-action="Index">
+
+        <img src="~/img/loupe_rmbg.png" alt="loupe de recherche" onclick="VisibleOrNotVisible()" id="showFilter" />
+       
+        <form asp-action="Index" class="formHide">
 
             <div class="inner-form">
+              
                 <div class="input-field fouth-wrap">
                     <div class="icon-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14">
@@ -63,14 +69,15 @@
                 <div class="input-field fifth-wrap">
                     <button type="submit" class="btn-search" >SEARCH</button>
                 </div>
+                
             </div>
         </form>
     </div>
            
- </div>
-    <div class="row">
-    <div id="map"></div>
-    </div>
+
+    
+
+    
     </div>
 
 
@@ -98,6 +105,23 @@
         Newtonsoft.Json.Formatting.Indented));
         
         GenererCarte(json1);
+
+
+        function VisibleOrNotVisible(){
+
+        let div = document.querySelector(".formHide");
+        if (div.style.zIndex == 2){
+            div.style.zIndex = 0;
+        }
+        else{
+           
+                div.style.zIndex = 2;
+            }
+        }
+        
+
+        
+   
 
 </script>
 

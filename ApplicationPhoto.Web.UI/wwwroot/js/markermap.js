@@ -44,11 +44,11 @@ for (let i = 0; i < json1.length; i++) {
 
     let imageLink = obj.ImageUrl;
     // create popup contents
-    var customPopup = obj.Description + "<br/><img src='" + imageLink + " ' alt='maptime logo gif' width='350px'/>";
+    var customPopup = obj.Description + "<br/><img src='" + imageLink + " ' alt='maptime logo gif' width='300px'/>";
     // specify popup options
     var customOptions =
     {
-        'maxWidth': '500',
+        'maxWidth': '400',
         'className': 'custom'
     }
 

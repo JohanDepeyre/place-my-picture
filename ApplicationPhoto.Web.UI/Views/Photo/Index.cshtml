@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ApplicationPhoto.Web.UI.Models.Photo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Vos photos";
 }
 
 <h1>Liste photo</h1>
@@ -10,67 +10,21 @@
     <a asp-action="Create">Ajouter photo</a>
 </p>
 <div>
-<table class="table" >
-    <thead>
-        <tr>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Latitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Longitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DatePicture)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categorie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Voyage)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-         
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Longitude)
-            </td>
-            <td>
-               <img src=@System.IO.Path.Combine("../..", @item.ImageUrl) alt=@item.Description class="tailleImage">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DatePicture)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categorie.NameCategorie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Voyage.NomVoyage)
-            </td>
+    <div class="row">
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PhotoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PhotoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PhotoId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        @foreach (var item in Model)
+          {
+
+      
+        <div class="card tailleCard">
+                <img class="card-img-top tailleImage" src=@System.IO.Path.Combine("../..", @item.ImageUrl) alt=@item.Description>
+            <div class="card-body">
+                <h5 class="card-title">@item.DatePicture</h5>
+                <p class="card-text">@item.Description</p>
+                 <a asp-action="Details" asp-route-id="@item.PhotoId">Details</a>
+            </div>
+        </div>
+        }
+    </div>
+
 </div>

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Supprimer voyage</h1>
 
 <h2>Etes vous sure de vouloir supprimer le voyage?</h2>
 <h3>Attention, ceci entrainera la suppression des photos associées.</h3>
@@ -40,7 +40,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="VoyageId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
