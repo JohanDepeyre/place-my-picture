@@ -23,6 +23,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ApplicationPhoto.Web.UI.Data.Migrations;
 using Microsoft.AspNet.Identity;
 using Voyage = ApplicationPhoto.Web.UI.Models.Voyage;
+using ApplicationPhoto.Web.UI.Utils.ImageTraitement;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
@@ -97,7 +98,10 @@ namespace ApplicationPhoto.Web.UI.Controllers
             //on suppose que les photos dispose d'EXIF (latitude/longitude) et (d'un date)
             bool flagLatLon = true;
             bool flagDate = true;
-            
+            //refill si on recharge la page si pas de métadonné
+            ViewBagCategorie(photo.VoyageId);
+            ViewBagVoyage(photo.CategorieId);
+
             photo.Voyage  = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
             photo.Categorie = unitOfWork.CategorieRepository.GetByID(photo.CategorieId);
 
@@ -108,9 +112,14 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 if (photo.MyImage != null && photo.MyImage.Length > 0)
                 {
 
-                    GestionImage uploadImage = new GestionImage();
-                    
-                    Image image = uploadImage.SaveAndReturnImage(photo, _env);
+                    ImageO monImage = new ImageO();
+                    ImageSaver imageSaver = new ImageSaver(monImage,photo,_env);
+
+                    ImageProcessor imageProcessor = new ImageProcessor(imageSaver, new ImageDeleter(),new ImageGetter());
+
+                   
+                   
+                    Image image = imageProcessor.ProcessSave();
 #pragma warning disable CS8629 // Le type valeur Nullable peut avoir une valeur null.
                     photo.Latitude = GestionPropertyItem.GetLatitude(image);
                     photo.Longitude = GestionPropertyItem.GetLongitude(image);
@@ -118,16 +127,18 @@ namespace ApplicationPhoto.Web.UI.Controllers
                     {
                         flagLatLon = false;
                     }
-                    photo.ImageUrl = uploadImage.FilePath();
+                    photo.ImageUrl = monImage.filePathDb;
 
-                    photo.Name = uploadImage.FileName();
-
+                    photo.Name = monImage.uniqueFileName;
+               
+             
 
                     photo.DatePicture = GestionPropertyItem.ReturnDate(image);
+
                     if (photo.DatePicture == null)
                     {
                         flagDate = false;
-                        uploadImage.DeleteImage(photo.ImageUrl);
+                        imageProcessor.ProcessDelete(photo.ImageUrl);
 
                     }
                     //si un des deux flags est null alors on redirigise vers la vue pour afficher les panels adequats(ex: saisir la date)
@@ -136,6 +147,10 @@ namespace ApplicationPhoto.Web.UI.Controllers
                         ViewBagPictureCreate("", flagLatLon, flagDate);
                         return View();
                     }
+
+                    Bitmap b = new Bitmap(image);
+
+                
                     unitOfWork.PhotoRepository.Insert(photo);
                     unitOfWork.Save();
 
@@ -254,8 +269,9 @@ namespace ApplicationPhoto.Web.UI.Controllers
             if (photo != null)
             {
                 unitOfWork.PhotoRepository.Delete(photo);
-                GestionImage imageSupp = new GestionImage();
-                imageSupp.DeleteImage(Path.Combine(_env.WebRootPath, photo.ImageUrl));
+                ImageDeleter imageDeleter = new ImageDeleter();
+
+                imageDeleter.DeleteImage(Path.Combine(_env.WebRootPath, photo.ImageUrl));
             }
 
             unitOfWork.Save();
