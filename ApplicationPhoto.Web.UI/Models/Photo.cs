@@ -21,7 +21,7 @@ namespace ApplicationPhoto.Web.UI.Models
 
         [Required(ErrorMessage = "Selectionner un fichier.")]
         [DataType(DataType.Upload)]
-        [MaxFileSize(5 * 1024 * 1024)]
+        [MaxFileSize(9 * 1024 * 1024)]
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile MyImage { set; get; }
         [Required(ErrorMessage = "Veuillez saisir une description")]

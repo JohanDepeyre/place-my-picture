@@ -26,7 +26,7 @@ public class MaxFileSizeAttribute : ValidationAttribute
 
     public string GetErrorMessage()
     {
-        return $"Maximum allowed file size is { _maxFileSize} bytes.";
+        return $"Le poids maximal authorisé est { _maxFileSize/ 1048576} Mo.";
     }
 }
 
