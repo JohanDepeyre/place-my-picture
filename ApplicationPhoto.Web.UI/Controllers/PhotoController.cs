@@ -147,9 +147,6 @@ namespace ApplicationPhoto.Web.UI.Controllers
                         ViewBagPictureCreate("", flagLatLon, flagDate);
                         return View();
                     }
-
-                    Bitmap b = new Bitmap(image);
-
                 
                     unitOfWork.PhotoRepository.Insert(photo);
                     unitOfWork.Save();

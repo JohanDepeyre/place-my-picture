@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 
-namespace ApplicationPhoto.Web.UI.Utils
+namespace ApplicationPhoto.Web.UI.Utils.ImageTraitement
 {
     public class ImageO
     {
-        private string _ImagePathDb = @"PictureFolder/" ;
-        public string ImagePathDb() { 
-              return _ImagePathDb;
+        private string _ImagePathDb = @"PictureFolder/";
+        public string ImagePathDb()
+        {
+            return _ImagePathDb;
         }
         public Image? image { get; set; }
         public string uniqueFileName { get; set; }
@@ -17,7 +18,7 @@ namespace ApplicationPhoto.Web.UI.Utils
         /// <summary>
         /// Chemin relatif
         /// </summary>
-        public String filePathDb { get; set; }
+        public string filePathDb { get; set; }
 
         public double W { get; set; }
         public double H { get; set; }

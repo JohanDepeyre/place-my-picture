@@ -10,15 +10,15 @@ namespace ApplicationPhoto.Web.UI
         {
             try
             {
-               
+
 
                 //Property Item 0x0001 - PropertyTagGpsLatitudeRef
                 PropertyItem? propItemRef = targetImg.GetPropertyItem(1);
-                    //Property Item 0x0002 - PropertyTagGpsLatitude
-                    PropertyItem? propItemLat = targetImg.GetPropertyItem(2);
-                    return ExifGpsToFloat(propItemRef, propItemLat);
-                
-               
+                //Property Item 0x0002 - PropertyTagGpsLatitude
+                PropertyItem? propItemLat = targetImg.GetPropertyItem(2);
+                return ExifGpsToFloat(propItemRef, propItemLat);
+
+
             }
             catch (ArgumentException)
             {
@@ -67,16 +67,9 @@ namespace ApplicationPhoto.Web.UI
         /// <returns>retourne DateTime</returns>
         public static DateTime? ReturnDate(Image image)
         {
-            byte[]? byteDate;
-            try
-            {
-                 byteDate = image.GetPropertyItem(0x0132).Value ?? null;
-            }
+
 #pragma warning disable CS8602 // Déréférencement d'une éventuelle référence null.
-            catch (ArgumentException)
-            {
-                return null;
-            }
+            byte[]? byteDate = image.GetPropertyItem(0x0132).Value ?? null;
 #pragma warning restore CS8602 // Déréférencement d'une éventuelle référence null.
             if (byteDate == null)
             {

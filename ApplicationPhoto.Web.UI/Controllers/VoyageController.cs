@@ -74,21 +74,23 @@ namespace ApplicationPhoto.Web.UI.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            return View();
+            Voyage voyage = new Voyage();
+            voyage.IdUser = User.Identity.GetUserId();
+            return View(voyage);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VoyageId,NomVoyage,DateVoyageDebut,DateVoyageFin,DescriptionVoyage")] Voyage voyage)
+        public async Task<IActionResult> Create([Bind("VoyageId,NomVoyage,DateVoyageDebut,DateVoyageFin,DescriptionVoyage,IdUser")] Voyage voyage)
         {
-            ModelState.Remove("IdUser");
+            
             if (ModelState.IsValid)
             {
 
                 if (voyage !=null)
             {
-                voyage.IdUser = User.Identity.GetUserId();
+                
                 unitOfWork.VoyageRepository.Insert(voyage);
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
