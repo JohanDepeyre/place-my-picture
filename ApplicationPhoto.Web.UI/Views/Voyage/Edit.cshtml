@@ -13,22 +13,22 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="VoyageId" />
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="NomVoyage" class="control-label">Voyage</label>
                 <input asp-for="NomVoyage" class="form-control" />
                 <span asp-validation-for="NomVoyage" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="DateVoyageDebut" class="control-label">Date début</label>
                 <input asp-for="DateVoyageDebut" class="form-control" />
                 <span asp-validation-for="DateVoyageDebut" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="DateVoyageFin" class="control-label">Date finn</label>
                 <input asp-for="DateVoyageFin" class="form-control" />
                 <span asp-validation-for="DateVoyageFin" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="DescriptionVoyage" class="control-label">Description</label>
                 <input asp-for="DescriptionVoyage" class="form-control" />
                 <span asp-validation-for="DescriptionVoyage" class="text-danger"></span>

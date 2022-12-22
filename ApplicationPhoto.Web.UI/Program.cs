@@ -1,5 +1,8 @@
 using ApplicationPhoto.Web.UI.Constraints;
+using ApplicationPhoto.Web.UI.DAL.interfaces;
+using ApplicationPhoto.Web.UI.DAL;
 using ApplicationPhoto.Web.UI.Data;
+using FluentAssertions.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -40,7 +43,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -106,6 +109,7 @@ app.UseEndpoints (endpoints =>
      pattern: "ajouter-photo",
      defaults: new { controller = "Photo", action = "Create" }
      );
+
     #endregion
 
     #region route carte
@@ -119,8 +123,8 @@ app.UseEndpoints (endpoints =>
     endpoints.MapControllerRoute(
         name: "showimage",
         pattern: "image-voyage/{id}",
-        defaults: new { controller = "Photo", action = "Index" },
-        constraints:new { id = new LogConstraints() }
+        defaults: new { controller = "Photo", action = "Index" }
+ 
         );
 
     endpoints.MapControllerRoute(
