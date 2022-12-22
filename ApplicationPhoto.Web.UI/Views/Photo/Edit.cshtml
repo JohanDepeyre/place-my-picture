@@ -22,18 +22,18 @@
             <input type="hidden" asp-for="ImageUrl" />
             <input type="hidden" asp-for="VoyageId" />
 
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="DatePicture" class="control-label"></label>
                 <input asp-for="DatePicture" class="form-control" />
                 <span asp-validation-for="DatePicture" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label asp-for="Categorie" class="control-label"></label>
                 <select asp-for="CategorieId" asp-items="listItemsCategorie"></select>
 

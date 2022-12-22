@@ -15,21 +15,23 @@ using System.Linq.Expressions;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ApplicationPhoto.Web.UI.Services.Interfaces;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
     public class VoyageController : Controller
     {
        
-        private readonly UnitOfWork unitOfWork;
+ 
         private string userConnect;
-        
-        public VoyageController(ApplicationDbContext context)
+
+        private readonly IRepository<Voyage> _voyageRepository;
+
+
+        public VoyageController(IRepository<Voyage> voyageRepository)
         {
-            unitOfWork = new UnitOfWork(context);
-           
-            // Get the user id
-            
+            this.userConnect = "";
+            this._voyageRepository = voyageRepository;
         }
 
         [Authorize]
@@ -37,7 +39,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
         public async Task<IActionResult> Index()
         {
             userConnect = User.Identity.GetUserId();
-            var voyage = unitOfWork.VoyageRepository.Get(Filter());
+            var voyage = _voyageRepository.Get(Filter());
             return View (voyage);
         }
 
@@ -57,7 +59,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return NotFound();
             }
 
-            var voyage = unitOfWork.VoyageRepository.GetByID((int)id);
+            var voyage = _voyageRepository.GetById((int)id);
             if (voyage == null || !VerifUser.UserConnect(voyage.IdUser, userConnect) )
             {
                 return NotFound();
@@ -75,6 +77,8 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             Voyage voyage = new Voyage();
+            voyage.DateVoyageDebut = DateTime.Today;
+            voyage.DateVoyageFin = DateTime.Today;
             voyage.IdUser = User.Identity.GetUserId();
             return View(voyage);
         }
@@ -90,9 +94,9 @@ namespace ApplicationPhoto.Web.UI.Controllers
 
                 if (voyage !=null)
             {
-                
-                unitOfWork.VoyageRepository.Insert(voyage);
-                unitOfWork.Save();
+
+                 _voyageRepository.Add(voyage);
+               
                 return RedirectToAction(nameof(Index));
             }
 
@@ -114,7 +118,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return NotFound();
             }
 
-            var voyage = unitOfWork.VoyageRepository.GetByID((int)id);
+            var voyage = _voyageRepository.GetById((int)id);
             if (voyage == null || !VerifUser.UserConnect(voyage.IdUser, userConnect))
             {
                 return NotFound();
@@ -138,8 +142,8 @@ namespace ApplicationPhoto.Web.UI.Controllers
             {
                 try
                 {
-                    unitOfWork.VoyageRepository.Update(voyage);
-                    unitOfWork.Save();
+                    _voyageRepository.Update(voyage);
+                  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -170,7 +174,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return NotFound();
             }
 
-            var voyage = unitOfWork.VoyageRepository.GetByID((int)id);
+            var voyage = _voyageRepository.GetById((int)id);
 
             if (voyage == null|| !VerifUser.UserConnect(voyage.IdUser,userConnect))
             {
@@ -186,13 +190,13 @@ namespace ApplicationPhoto.Web.UI.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             userConnect = User.Identity.GetUserId();
-            var voyage = unitOfWork.VoyageRepository.GetByID(id);
+            var voyage = _voyageRepository.GetById(id);
             if (voyage!= null || !VerifUser.UserConnect(voyage.IdUser, userConnect))
             {
-                unitOfWork.VoyageRepository.Delete(voyage);
+                _voyageRepository.Delete(voyage);
             }
             
-             unitOfWork.Save();
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -212,15 +216,11 @@ namespace ApplicationPhoto.Web.UI.Controllers
         }
         private bool VoyageExists(Voyage voyage)
         {
-          return unitOfWork.VoyageRepository.Exists(voyage);
+          return _voyageRepository.Exist(voyage);
         }
 
  
 
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
-        }
+        
     }
 }

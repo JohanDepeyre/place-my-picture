@@ -1,4 +1,15 @@
 ﻿
+function VisibleOrNotVisible() {
+
+    let div = document.querySelector(".formHide");
+    if (div.style.display == 'flex') {
+        div.style.display = 'none';
+    }
+    else {
+
+        div.style.display = 'flex';
+    }
+}
 
 function GenererCarte(json1) {
 
@@ -7,7 +18,7 @@ function GenererCarte(json1) {
                     let latFirst = obj.Latitude;
                     let lonFirst = obj.Longitude;
                     //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
-                    var map = L.map('map', { scrollWheelZoom: true }).setView([latFirst, lonFirst], 15);
+                    var map = L.map('map', { scrollWheelZoom: true }).setView([latFirst, lonFirst], 8);
 
                     //  add base map tiles from OpenStreetMap and attribution info to 'map' div
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -21,19 +32,29 @@ function GenererCarte(json1) {
                         let idCategorie = obj.CategorieId;
                         switch (idCategorie) {
                             case 1:
-                                urlIcon = 'img/icon_paysage.png';
+                                urlIcon = 'img/icons8-champ-48.png';
                                 break;
+
                             case 2:
-                                urlIcon = 'img/icon_group.png';
+                                urlIcon = 'img/icons8-we-48.png';
                                 break;
                             case 3:
-                                urlIcon = 'img/icon_sport.png';
+                                urlIcon = 'img/icons8-sports-48.png';
                                 break;
                             case 4:
-                                urlIcon = 'img/icon_selfie.png';
+                                urlIcon = 'img/icons8-selfie-48.png';
+                                break;
+                            case 5:
+                                urlIcon = 'img/icons8-renard-48.png';
+                                break;
+                            case 6:
+                                urlIcon = 'img/icons8-bâtiments-de-la-ville-48.png';
+                                break;
+                            case 7:
+                                urlIcon = 'img/icons8-trail-48.png';
                                 break;
                             default:
-                                urlIcon = 'img/icon_paysage.png'
+                                urlIcon = 'img/icons8-champ-48.png'
                         }
 
 

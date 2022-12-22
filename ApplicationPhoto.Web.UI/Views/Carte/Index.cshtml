@@ -14,7 +14,7 @@
 
         <img src="~/img/loupe_rmbg.png" alt="loupe de recherche" onclick="VisibleOrNotVisible()" id="showFilter" />
        
-        <form asp-action="Index" class="formHide">
+        <form asp-action="Index" class="formHide" style="display:flex;">
 
             <div class="inner-form">
               
@@ -107,17 +107,6 @@
         GenererCarte(json1);
 
 
-        function VisibleOrNotVisible(){
-
-        let div = document.querySelector(".formHide");
-        if (div.style.zIndex == 2){
-            div.style.zIndex = 0;
-        }
-        else{
-           
-                div.style.zIndex = 2;
-            }
-        }
         
 
         

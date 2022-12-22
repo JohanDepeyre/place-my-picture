@@ -6,7 +6,7 @@ let obj = json1[0];
 let latFirst = obj.Latitude;
 let lonFirst = obj.Longitude;
 //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
-var map = L.map('map', { scrollWheelZoom: true }).setView([latFirst, lonFirst], 15);
+var map = L.map('map', { scrollWheelZoom: true }).setView([latFirst, lonFirst], 5);
 
 //  add base map tiles from OpenStreetMap and attribution info to 'map' div
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

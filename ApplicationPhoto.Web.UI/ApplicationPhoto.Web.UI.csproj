@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\img\icon_group.png" />
+    <Content Remove="wwwroot\img\icon_paysage.png" />
+    <Content Remove="wwwroot\img\icon_selfie.png" />
+    <Content Remove="wwwroot\img\icon_sport.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.8.0" />
     <PackageReference Include="GenFu" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
@@ -41,14 +48,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\PictureFolder\" />
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-    <None Include="wwwroot\PictureFolder\5f72915c-59ab-4728-bc8e-f360f33858de_IMG_4699.jpg" />
-    <None Include="wwwroot\PictureFolder\850ef86b-aa60-43b4-8fba-246d1ef82d43_Johan.jpg" />
-    <None Include="wwwroot\PictureFolder\b559ebf5-87b2-4817-991c-c9f3b09ccc71_IMG_4976.jpg" />
+    <Folder Include="DAL\interfaces\" />
   </ItemGroup>
 
 </Project>
