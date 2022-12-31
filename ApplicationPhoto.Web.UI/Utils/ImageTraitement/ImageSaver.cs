@@ -24,7 +24,7 @@ namespace ApplicationPhoto.Web.UI.Utils.ImageTraitement
         /// Utilise la Lib ImageSharp
         /// </summary>
         /// <returns>retourne le chemin de l'image</returns>
-        public string SaveImage()
+        public System.Drawing.Image SaveImage()
         {
             string uploadsFolder = Path.Combine(env.WebRootPath, imageO.ImagePathDb());
             imageO.uniqueFileName = GetRandomName(photo.MyImage.FileName);
@@ -41,7 +41,7 @@ namespace ApplicationPhoto.Web.UI.Utils.ImageTraitement
 
                 imageSave.Save(imageO.filePath);
             } // Dispose 
-            return imageO.filePath;
+            return System.Drawing.Image.FromFile(imageO.filePath);
 
 
         }

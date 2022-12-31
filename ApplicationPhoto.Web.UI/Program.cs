@@ -1,7 +1,8 @@
-using ApplicationPhoto.Web.UI.Constraints;
-using ApplicationPhoto.Web.UI.DAL.interfaces;
-using ApplicationPhoto.Web.UI.DAL;
+
 using ApplicationPhoto.Web.UI.Data;
+using ApplicationPhoto.Web.UI.Models;
+using ApplicationPhoto.Web.UI.Services;
+using ApplicationPhoto.Web.UI.Services.Interfaces;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,8 +44,9 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddTransient<IRepository<Voyage>, VoyageRepository>();
+builder.Services.AddTransient<IRepository<Categorie>, CategorieRepository>();
+builder.Services.AddTransient<IRepository<Photo>, PhotoRepository>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

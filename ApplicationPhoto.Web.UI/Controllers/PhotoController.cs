@@ -13,7 +13,7 @@ using ApplicationPhoto.Web.UI.Data;
 using ApplicationPhoto.Web.UI.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using ApplicationPhoto.Web.UI.DAL;
+
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,6 +24,9 @@ using ApplicationPhoto.Web.UI.Data.Migrations;
 using Microsoft.AspNet.Identity;
 using Voyage = ApplicationPhoto.Web.UI.Models.Voyage;
 using ApplicationPhoto.Web.UI.Utils.ImageTraitement;
+using ApplicationPhoto.Web.UI.Services;
+using ApplicationPhoto.Web.UI.Services.Interfaces;
+using ApplicationPhoto.Web.UI.Models.ViewModel;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
@@ -31,12 +34,18 @@ namespace ApplicationPhoto.Web.UI.Controllers
     {
      
         private readonly IWebHostEnvironment _env;
-        private readonly UnitOfWork unitOfWork;
+        private readonly IRepository<Photo> _photoRepository;
+        private readonly IRepository<Categorie> _categorieRepository;
+        private readonly IRepository<Voyage> _voyageRepository;
         private string userConnect;
-        public PhotoController(ApplicationDbContext context, IWebHostEnvironment env)
+
+
+        public PhotoController(IRepository<Photo> photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
         {
-            ApplicationDbContext _context = context;
-            unitOfWork = new UnitOfWork(_context);
+            this.userConnect = "";
+            this._photoRepository =photoRepository;
+            this._categorieRepository = categorieRepository;
+            this._voyageRepository = voyageRepository;
             _env = env;
            
         }
@@ -48,7 +57,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
         public ActionResult Index(int id)
         {
             userConnect = User.Identity.GetUserId();
-            return View(unitOfWork.PhotoRepository.Get(FilterPhotoById(id)));
+            return View(_photoRepository.Get(FilterPhotoById(id)));
         }
         [Authorize]
         public ActionResult Index()
@@ -68,9 +77,9 @@ namespace ApplicationPhoto.Web.UI.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            var photo = unitOfWork.PhotoRepository.GetByID((int)id);
-            photo.Voyage  = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
-            photo.Categorie = unitOfWork.CategorieRepository.GetByID(photo.CategorieId);
+            var photo = _photoRepository.GetByIdInclude((int)id, "Voyage,Categorie");
+           // photo.Voyage  = .GetById.VoyageRepository.GetByID(photo.VoyageId, );
+//photo.Categorie = unitOfWork.CategorieRepository.GetByID(photo.CategorieId);
             if (photo == null || !VerifUser.UserConnect(photo.Voyage.IdUser, userConnect))
             {
                 return NotFound();
@@ -80,98 +89,90 @@ namespace ApplicationPhoto.Web.UI.Controllers
         #endregion
 
         #region Create
+     
         [Authorize]
         // GET: PictureController/Create
         public ActionResult Create()
         {
-            ViewBagPictureCreate("",true,true);
+            ViewBagPictureCreate("", true, true);
             ViewBagCategorie();
+            ViewBagVoyage();
+            
+
+            return View ();
+        }
+        [Authorize]
+        // GET: PictureController/CreateMultiple
+        public ActionResult CreateMultiple()
+        {
+
             ViewBagVoyage();
             return View();
         }
+
         [Authorize]
         // POST: PictureController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Photo photo)
+        public ActionResult Create(FilesPhotoViewModel fichier)
         {
-            //on suppose que les photos dispose d'EXIF (latitude/longitude) et (d'un date)
-            bool flagLatLon = true;
-            bool flagDate = true;
-            //refill si on recharge la page si pas de métadonné
-            ViewBagCategorie(photo.VoyageId);
-            ViewBagVoyage(photo.CategorieId);
+           // Photo photo = fichier.Photos;
+           
+           
 
-            photo.Voyage  = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
-            photo.Categorie = unitOfWork.CategorieRepository.GetByID(photo.CategorieId);
+           
+                
+                
+                int nbrImages = ContientImage(fichier.Files);
 
-            if (this.ModelState.IsValid)
-            {
-
-
-                if (photo.MyImage != null && photo.MyImage.Length > 0)
+                if (nbrImages  > 0)
                 {
 
-                    ImageO monImage = new ImageO();
-                    ImageSaver imageSaver = new ImageSaver(monImage,photo,_env);
-
-                    ImageProcessor imageProcessor = new ImageProcessor(imageSaver, new ImageDeleter(),new ImageGetter());
-
-                   
-                   
-                    Image image = imageProcessor.ProcessSave();
-#pragma warning disable CS8629 // Le type valeur Nullable peut avoir une valeur null.
-                    photo.Latitude = GestionPropertyItem.GetLatitude(image);
-                    photo.Longitude = GestionPropertyItem.GetLongitude(image);
-                    if (photo.Latitude == null)
+                foreach (var file in fichier.Files)
+                {
+                    Photo photo = new Photo
                     {
-                        flagLatLon = false;
+                        VoyageId = fichier.Photos.VoyageId,
+                        CategorieId = fichier.Photos.CategorieId,
+                        Description = fichier.Photos.Description
+
+                    };
+                        photo.MyImage = file;
+                        CreationObjetPhoto(photo);
+
+                        //si il manque une date ou la latitude/longitude on ouvre un panel ( pas dispo pour plusieurs photo)
+                        if (!NoExifLatLonDate(photo))
+                        {
+                            ViewBagPictureCreate("", false, false);
+                            return View();
+                        }
+
+                        _photoRepository.Add(photo);
                     }
-                    photo.ImageUrl = monImage.filePathDb;
 
-                    photo.Name = monImage.uniqueFileName;
-               
-             
-
-                    photo.DatePicture = GestionPropertyItem.ReturnDate(image);
-
-                    if (photo.DatePicture == null)
-                    {
-                        flagDate = false;
-                        imageProcessor.ProcessDelete(photo.ImageUrl);
-
-                    }
-                    //si un des deux flags est null alors on redirigise vers la vue pour afficher les panels adequats(ex: saisir la date)
-                    if (!flagDate || !flagLatLon)
-                    {
-                        ViewBagPictureCreate("", flagLatLon, flagDate);
-                        return View();
-                    }
-                
-                    unitOfWork.PhotoRepository.Insert(photo);
-                    unitOfWork.Save();
-
-
-                }
-
-                return RedirectToAction("Index", new { id = photo.VoyageId });
 
             }
             else
             {
-                ViewBagPictureCreate("", flagLatLon, flagDate);
-
+                ViewBagCategorie(fichier.Photos.VoyageId);
+                ViewBagVoyage(fichier.Photos.CategorieId);
                 return View();
+            }
+            //refill si on recharge la page si pas de métadonné
+           
+            return RedirectToAction("Index", new { id = fichier.Photos.VoyageId });
 
             }
 
+
            
-        }
+        
 
-        #endregion
+       
+#endregion
 
-        #region Edit
-        [Authorize]
+#region Edit
+[Authorize]
         // GET: PictureController/Edit/5
         public ActionResult Edit(int id)
         {
@@ -182,8 +183,8 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
            
-            var photo = unitOfWork.PhotoRepository.GetByID((int)id);
-            photo.Voyage = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
+            var photo = _photoRepository.GetByIdInclude((int)id,"Voyage,Categories");
+            //photo.Voyage = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
             if (photo == null || !VerifUser.UserConnect(photo.Voyage.IdUser, userConnect))
             {
                 return NotFound();
@@ -199,7 +200,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
         public IActionResult Edit(int id,Photo photo)
         {
             userConnect = User.Identity.GetUserId();
-            photo.Voyage = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
+            photo.Voyage = _voyageRepository.GetById(photo.VoyageId);
 
             if (id != photo.PhotoId || !VerifUser.UserConnect(photo.Voyage.IdUser, userConnect))
             {
@@ -210,8 +211,8 @@ namespace ApplicationPhoto.Web.UI.Controllers
             {
                 try
                 {
-                    unitOfWork.PhotoRepository.Update(photo);
-                    unitOfWork.Save();
+                    _photoRepository.Update(photo);
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -245,8 +246,8 @@ namespace ApplicationPhoto.Web.UI.Controllers
                 return NotFound();
             }
             
-            var photo = unitOfWork.PhotoRepository.GetByID(id);
-            photo.Voyage = unitOfWork.VoyageRepository.GetByID(photo.VoyageId);
+            var photo = _photoRepository.GetByIdInclude((int)id,"Voyage,Categorie");
+            //photo.Voyage = _voyageRepository.GetById(photo.VoyageId);
             if (photo == null || !VerifUser.UserConnect(photo.Voyage.IdUser, userConnect))
             {
                 return NotFound();
@@ -262,16 +263,16 @@ namespace ApplicationPhoto.Web.UI.Controllers
         {
 
             
-            var photo = unitOfWork.PhotoRepository.GetByID(id);
+            var photo = _photoRepository.GetById(id);
             if (photo != null)
             {
-                unitOfWork.PhotoRepository.Delete(photo);
-                ImageDeleter imageDeleter = new ImageDeleter();
+                _photoRepository.Delete(photo);
+                
 
-                imageDeleter.DeleteImage(Path.Combine(_env.WebRootPath, photo.ImageUrl));
+                ImageDeleter.DeleteImage(Path.Combine(_env.WebRootPath, photo.ImageUrl));
             }
 
-            unitOfWork.Save();
+        
             return RedirectToAction("Index", new { id = photo.VoyageId });
         }
 
@@ -286,7 +287,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
             expressions = new List<Expression<Func<Photo, bool>> >();
             expressions.Add(x => x.VoyageId == id);
             expressions.Add(x => x.Voyage.IdUser == userConnect);
-              return expressions;
+             return expressions;
           
 
         }
@@ -303,29 +304,63 @@ namespace ApplicationPhoto.Web.UI.Controllers
         #endregion
 
         #region Methodes privées
+        private int ContientImage(List<IFormFile> files)
+        {
+            return files.Count();
+        }
 
+        private Photo CreationObjetPhoto(Photo photo)
+        {
+
+            ImageO monImage = new ImageO();
+            ImageSaver imageSaver = new ImageSaver(monImage, photo, _env);
+            Image image = imageSaver.SaveImage();
+
+            photo.Voyage = _voyageRepository.GetById(photo.VoyageId);
+            photo.Categorie = _categorieRepository.GetById(photo.CategorieId);
+#pragma warning disable CS8629 // Le type valeur Nullable peut avoir une valeur null.
+            photo.Latitude = GestionPropertyItem.GetLatitude(image);
+            photo.Longitude = GestionPropertyItem.GetLongitude(image);
+
+            photo.ImageUrl = monImage.filePathDb;
+
+            photo.Name = monImage.uniqueFileName;
+
+
+
+            photo.DatePicture = GestionPropertyItem.ReturnDate(image);
+            return photo;
+        }
+        private bool NoExifLatLonDate(Photo photo)
+        {
+
+            if (photo.Latitude == null || photo.DatePicture == null)
+            {
+                ImageDeleter.DeleteImage(photo.ImageUrl);
+                return false;
+            }
+
+
+            return true;
+        }
         private bool PhotoExists(Photo photo)
         {
-            return unitOfWork.PhotoRepository.Exists(photo);
+            return _photoRepository.Exist(photo);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
-        }
+      
 
         private void ViewBagCategorie(int? selectedCategorie = null)
         {
 
-            ViewBag.ListeCategorie = new SelectList(unitOfWork.CategorieRepository.Get(), "CategorieId", "NameCategorie", selectedCategorie);
+            ViewBag.ListeCategorie = new SelectList(_categorieRepository.GetAll(), "CategorieId", "NameCategorie", selectedCategorie);
 
 
 
         }
         private void ViewBagVoyage(int? selectedVoyage = null)
         {
-            ViewBag.ListeVoyage = new SelectList(unitOfWork.VoyageRepository.Get(FilterUser()), "VoyageId", "NomVoyage", selectedVoyage);
+            ViewBag.ListeVoyage = new SelectList(_voyageRepository.Get(FilterUser()), "VoyageId", "NomVoyage", selectedVoyage);
 
         }
         /// <summary>

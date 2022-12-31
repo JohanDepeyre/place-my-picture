@@ -1,0 +1,52 @@
+﻿@model ApplicationPhoto.Web.UI.Models.Photo
+
+@{
+    ViewData["Title"] = "Ajouter photo";
+   var listItemsVoyage = this.ViewBag.ListeVoyage;
+    var listItemsCategorie = this.ViewBag.ListeCategorie;
+}
+			<div class="row">
+				<div class="col-md-5 col-md-pull-7">
+						<div class="booking-form">
+						 
+								<form asp-action="CreateMultiple" enctype="multipart/form-data" asp-action="Upload">
+									<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+										
+									<div class="form-group">
+										<label asp-for="ImageUrl" class="form-label">Insérer image</label>
+									<input type="file" name="files" multiple />
+
+										<span asp-validation-for="MyImage" class="text-danger"></span>
+									</div>
+		
+								<div class="row">
+									  <div class="form-group">
+										  <label  class="control-label">Voyage</label>
+										<select asp-for="VoyageId" asp-items="listItemsVoyage" ></select>
+									</div>
+								</div>
+								
+								<div class="form-btn">
+										<input type="submit" value="Ajouter Image" class="submit-btn" />
+									</div>
+							
+							</form>
+						</div>
+					</div>
+					<div class="col-md-7 col-md-push-5">
+						<div class="booking-cta">
+							<h1>Ajouter votre photo</h1>
+							<p>Ajouter votre photo dans votre portofolio de voyage, vous pouvez saisir un catégorie afin de
+								retrouver plus facilement vos souvenirs et ajouter un description pour ne rien oublier de vos plus
+								instants
+							</p>
+						</div>
+					</div>
+
+				
+	
+	</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

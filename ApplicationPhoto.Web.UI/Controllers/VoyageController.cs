@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationPhoto.Web.UI.Data;
 using ApplicationPhoto.Web.UI.Models;
 using Microsoft.AspNetCore.Authorization;
-using ApplicationPhoto.Web.UI.DAL;
+
 using Microsoft.AspNet.Identity;
 using ApplicationPhoto.Web.UI.Utils;
 using System.Linq.Expressions;

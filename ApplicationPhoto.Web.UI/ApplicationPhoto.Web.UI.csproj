@@ -37,7 +37,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
     <PackageReference Include="SixLabors.ImageSharp.Web" Version="2.0.2" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.45.0.54064">
       <PrivateAssets>all</PrivateAssets>
@@ -49,10 +49,74 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\.gitignore" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\.travis.yml" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\build\hintrc.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\build\rollup-config.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\CHANGELOG.md" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\CONTRIBUTING.md" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\dist\leaflet.markercluster-src.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\dist\leaflet.markercluster-src.js.map" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\dist\leaflet.markercluster.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\dist\leaflet.markercluster.js.map" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\example\geojson-sample.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\example\realworld.10000.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\example\realworld.388.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\example\realworld.50000.1.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\example\realworld.50000.2.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\Jakefile.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\README.md" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\after.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\expect.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\karma.conf.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\sinon.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\AddLayer.MultipleSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\AddLayer.SingleSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\AddLayersSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\animateOptionSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\ChildChangingIconSupportSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\CircleMarkerSupportSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\CircleSupportSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\clearLayersSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\disableClusteringAtZoomSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\DistanceGridSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\eachLayerSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\eventsSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\getBoundsSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\getLayersSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\getVisibleParentSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\LeafletSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\markerMoveSupportSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\nonIntegerZoomSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\NonPointSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\onAddSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\onRemoveSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\PaneSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\QuickHullSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\RefreshSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\RememberOpacity.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\RemoveLayerSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\removeLayersSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\removeOutsideVisibleBoundsSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\singleMarkerModeSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\SpecHelper.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\spiderfySpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\supportNegativeZoomSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\unspiderfySpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\spec\suites\zoomAnimationSpec.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\DistanceGrid.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\index.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerCluster.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerCluster.QuickHull.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerCluster.Spiderfier.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerClusterGroup.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerClusterGroup.Refresh.js" />
+    <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerOpacity.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAL\interfaces\" />
+    <Folder Include="Services\Interfaces\Generic\" />
   </ItemGroup>
 
 </Project>

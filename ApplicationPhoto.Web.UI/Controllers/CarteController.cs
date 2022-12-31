@@ -1,6 +1,7 @@
-﻿using ApplicationPhoto.Web.UI.DAL;
+﻿
 using ApplicationPhoto.Web.UI.Data;
 using ApplicationPhoto.Web.UI.Models;
+using ApplicationPhoto.Web.UI.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +14,22 @@ namespace ApplicationPhoto.Web.UI.Controllers
 {
     public class CarteController : Controller
     {
-        private readonly UnitOfWork unitOfWork;
-        public CarteController(ApplicationDbContext context)
+       
+        
+        private readonly IRepository<Photo> _photoRepository;
+        private readonly IRepository<Categorie> _categorieRepository;
+        private readonly IRepository<Voyage> _voyageRepository;
+        private string userConnect;
+
+
+        public CarteController(IRepository<Photo> photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
         {
-            ApplicationDbContext _context = context;
-            unitOfWork = new UnitOfWork(_context);
+            this.userConnect = "";
+            this._photoRepository = photoRepository;
+            this._categorieRepository = categorieRepository;
+            this._voyageRepository = voyageRepository;
+           
+
         }
 
         [Authorize]
@@ -31,7 +43,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
             ViewBagVoyage();
            
 
-            return View(unitOfWork.PhotoRepository.Get(Filter(null,null,null,null)));
+            return View(_photoRepository.Get(Filter(null,null,null,null)));
         }
         // GET: PictureController/Index/3
         [Authorize]
@@ -40,7 +52,7 @@ namespace ApplicationPhoto.Web.UI.Controllers
         {
             ViewBagCategorie(idCategorie);
             ViewBagVoyage(idVoyage);
-            return View(unitOfWork.PhotoRepository.Get(Filter(idCategorie, idVoyage,depart,fin)));
+            return View(_photoRepository.Get(Filter(idCategorie, idVoyage,depart,fin)));
 
 
           
@@ -92,14 +104,14 @@ namespace ApplicationPhoto.Web.UI.Controllers
         private void ViewBagCategorie(int? selectedCategorie = null)
         {
 
-            ViewBag.ListeCategorie = new SelectList(unitOfWork.CategorieRepository.Get(), "CategorieId", "NameCategorie", selectedCategorie);
+            ViewBag.ListeCategorie = new SelectList(_categorieRepository.GetAll(), "CategorieId", "NameCategorie", selectedCategorie);
 
            
 
         }
         private void ViewBagVoyage(int? selectedVoyage = null)
         {
-            ViewBag.ListeVoyage = new SelectList(unitOfWork.VoyageRepository.Get(FilterUser()), "VoyageId", "NomVoyage", selectedVoyage); 
+            ViewBag.ListeVoyage = new SelectList(_voyageRepository.Get(FilterUser()), "VoyageId", "NomVoyage", selectedVoyage); 
 
         }
 
