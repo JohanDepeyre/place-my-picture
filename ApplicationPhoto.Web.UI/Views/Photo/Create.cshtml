@@ -1,5 +1,4 @@
-﻿@model ApplicationPhoto.Web.UI.Models.Photo
-
+﻿@model ApplicationPhoto.Web.UI.Models.ViewModel.FilesPhotoViewModel
 @{
     ViewData["Title"] = "Ajouter photo";
    var listItemsVoyage = this.ViewBag.ListeVoyage;
@@ -10,31 +9,32 @@
 						<div class="booking-form">
 						 
 								<form asp-action="Create" enctype="multipart/form-data" asp-action="Upload">
-									<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+								
 										
 									<div class="form-group">
-										<label asp-for="ImageUrl" class="form-label">Insérer image</label>
-										  <input asp-for="MyImage" class="form-control"/>
-
-										<span asp-validation-for="MyImage" class="text-danger"></span>
+										<label asp-for="@Model.Photos.ImageUrl" class="form-label">Insérer image</label>
+					<input asp-for="@Model.Files" class="form-control" multiple />
+					 
+					<span asp-validation-for="@Model.Files" class="text-danger"></span>
+										
 									</div>
 									<div class="row">
 									  <div class="form-group">
 										  <label  class="control-label">Catégorie</label>
-										<select asp-for="CategorieId" asp-items="listItemsCategorie" ></select>
+						<select asp-for="@Model.Photos.CategorieId" asp-items="listItemsCategorie"></select>
 									</div>
 								</div>
 								<div class="row">
 									  <div class="form-group">
 										  <label  class="control-label">Voyage</label>
-										<select asp-for="VoyageId" asp-items="listItemsVoyage" ></select>
+						<select asp-for="@Model.Photos.VoyageId" asp-items="listItemsVoyage"></select>
 									</div>
 								</div>
 								<div class="row">
 									<div class="form-group">
-										<label asp-for="Description" class="control-label"></label>
-										<textarea cols="5" rows="6" asp-for="Description" class="form-control"></textarea>
-										<span asp-validation-for="Description" class="text-danger"></span>
+						<label asp-for="@Model.Photos.Description" class="control-label"></label>
+						<textarea cols="5" rows="6" asp-for="@Model.Photos.Description" class="form-control"></textarea>
+										<span asp-validation-for="@Model.Photos.Description" class="text-danger"></span>
 									</div>
 								</div>
 								@{
@@ -43,8 +43,8 @@
 									<div class="form-group">
 										<label class="control-label">La photo ne contient pas de coordonnées GPS, selectionnez une adresse (fonctionnalité à venir)</label>
 										<label class="control-label"></label>
-										<input type="date" asp-for="Description" class="form-control" placeholder="Fonctionnalité pas encore disponible"/>
-										<span asp-validation-for="Description" class="text-danger"></span>
+								<input type="date" asp-for="@Model.Photos.Description" class="form-control" placeholder="Fonctionnalité pas encore disponible" />
+										<span asp-validation-for="@Model.Photos.Description" class="text-danger"></span>
 									</div>
 								</div>
 
@@ -53,9 +53,9 @@
 										<div class="row">
 									<div class="form-group">
 										<label class="control-label">La photo ne contient pas de date, veuillez en saisir une</label>
-										<label asp-for="DatePicture" class="control-label"></label>
-										<input type="date" asp-for="DatePicture" class="form-control"/>
-										<span asp-validation-for="DatePicture" class="text-danger"></span>
+								<label asp-for="@Model.Photos.DatePicture" class="control-label"></label>
+								<input type="date" asp-for="@Model.Photos.DatePicture" class="form-control" />
+										<span asp-validation-for="@Model.Photos.DatePicture" class="text-danger"></span>
 									</div>
 								</div>
 

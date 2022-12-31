@@ -20,6 +20,13 @@ function GenererCarte(json1) {
                     //  create map object, tell it to live in 'map' div and give initial latitude, longitude, zoom values
                     var map = L.map('map', { scrollWheelZoom: true }).setView([latFirst, lonFirst], 8);
 
+                    var markerCluster = L.markerClusterGroup();
+
+  
+   
+
+    
+                        
                     //  add base map tiles from OpenStreetMap and attribution info to 'map' div
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -60,7 +67,7 @@ function GenererCarte(json1) {
 
                         var imageIcon = L.icon({
                             iconUrl: urlIcon,
-                            iconSize: [30, 30], // size of the icon
+                            iconSize: [22, 22], // size of the icon
                             popupAnchor: [0, -15]
                         });
 
@@ -77,9 +84,14 @@ function GenererCarte(json1) {
                         let lat = obj.Latitude;
                         let lon = obj.Longitude;
                         // create marker object, pass custom icon as option, pass content and options to popup, add to map
-                        L.marker([lat, lon], { icon: imageIcon }).bindPopup(customPopup, customOptions).addTo(map);
+                        var marker = L.marker([lat, lon], { icon: imageIcon });
+                        markerCluster.addLayer(marker);
+                        marker.bindPopup(customPopup, customOptions).addTo(map);
+                        
+                       
+                      
+    }
 
-                        console.log(obj.ImageUrl);
-                    }
+    map.addLayer(markerCluster);
 
 }
