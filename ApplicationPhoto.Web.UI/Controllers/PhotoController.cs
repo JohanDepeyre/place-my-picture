@@ -25,8 +25,9 @@ using Microsoft.AspNet.Identity;
 using Voyage = ApplicationPhoto.Web.UI.Models.Voyage;
 using ApplicationPhoto.Web.UI.Utils.ImageTraitement;
 using ApplicationPhoto.Web.UI.Services;
-using ApplicationPhoto.Web.UI.Services.Interfaces;
 using ApplicationPhoto.Web.UI.Models.ViewModel;
+using ApplicationPhoto.Web.UI.Services.Interfaces.Generic;
+using ApplicationPhoto.Web.UI.Services.Interfaces;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
@@ -34,13 +35,13 @@ namespace ApplicationPhoto.Web.UI.Controllers
     {
      
         private readonly IWebHostEnvironment _env;
-        private readonly IRepository<Photo> _photoRepository;
+        private readonly IPhotoRepository _photoRepository;
         private readonly IRepository<Categorie> _categorieRepository;
         private readonly IRepository<Voyage> _voyageRepository;
         private string userConnect;
 
 
-        public PhotoController(IRepository<Photo> photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
+        public PhotoController(IPhotoRepository photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
         {
             this.userConnect = "";
             this._photoRepository =photoRepository;
@@ -54,10 +55,27 @@ namespace ApplicationPhoto.Web.UI.Controllers
         // GET: PictureController/Index/3
         [Authorize]
         [HttpGet]
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int page = 1)
         {
             userConnect = User.Identity.GetUserId();
-            return View(_photoRepository.Get(FilterPhotoById(id)));
+
+            int pageSize = 106; // Nombre d'enregistrements par page
+            int totalPages = _photoRepository.GetTotalPages(id,pageSize);
+         
+
+            var data = _photoRepository.GetPagedData(page, pageSize, FilterPhotoById(id));
+
+            // Configurez le modèle de vue avec les données et les informations de pagination
+            var model = new PhotoPageViewModel
+            {
+                TotalPages = totalPages,
+                CurrentPage = page,
+                IdVoyage = id,
+                Photos = data
+            };
+
+
+            return View(model);
         }
         [Authorize]
         public ActionResult Index()
@@ -116,12 +134,6 @@ namespace ApplicationPhoto.Web.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(FilesPhotoViewModel fichier)
         {
-           // Photo photo = fichier.Photos;
-           
-           
-
-           
-                
                 
                 int nbrImages = ContientImage(fichier.Files);
 

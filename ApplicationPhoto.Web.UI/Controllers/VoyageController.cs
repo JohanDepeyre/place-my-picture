@@ -15,7 +15,7 @@ using System.Linq.Expressions;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ApplicationPhoto.Web.UI.Services.Interfaces;
+using ApplicationPhoto.Web.UI.Services.Interfaces.Generic;
 
 namespace ApplicationPhoto.Web.UI.Controllers
 {
