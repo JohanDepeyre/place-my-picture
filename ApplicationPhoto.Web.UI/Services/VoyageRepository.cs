@@ -1,7 +1,7 @@
 ﻿
 using ApplicationPhoto.Web.UI.Data;
 using ApplicationPhoto.Web.UI.Models;
-using ApplicationPhoto.Web.UI.Services.Interfaces;
+using ApplicationPhoto.Web.UI.Services.Interfaces.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;

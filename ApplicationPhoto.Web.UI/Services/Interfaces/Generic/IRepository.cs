@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ApplicationPhoto.Web.UI.Services.Interfaces
+namespace ApplicationPhoto.Web.UI.Services.Interfaces.Generic
 {
     public interface IRepository<T> where T : class
     {

@@ -1,7 +1,8 @@
 ﻿
 using ApplicationPhoto.Web.UI.Data;
 using ApplicationPhoto.Web.UI.Models;
-using ApplicationPhoto.Web.UI.Services.Interfaces;
+using ApplicationPhoto.Web.UI.Services;
+using ApplicationPhoto.Web.UI.Services.Interfaces.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,13 +17,13 @@ namespace ApplicationPhoto.Web.UI.Controllers
     {
        
         
-        private readonly IRepository<Photo> _photoRepository;
+        private readonly PhotoRepository _photoRepository;
         private readonly IRepository<Categorie> _categorieRepository;
         private readonly IRepository<Voyage> _voyageRepository;
         private string userConnect;
 
 
-        public CarteController(IRepository<Photo> photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
+        public CarteController(PhotoRepository photoRepository, IRepository<Categorie> categorieRepository, IRepository<Voyage> voyageRepository, IWebHostEnvironment env)
         {
             this.userConnect = "";
             this._photoRepository = photoRepository;

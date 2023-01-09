@@ -115,8 +115,4 @@
     <None Include="wwwroot\lib\Leaflet.markercluster-1.4.1\src\MarkerOpacity.js" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Interfaces\Generic\" />
-  </ItemGroup>
-
 </Project>

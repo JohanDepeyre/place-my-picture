@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ApplicationPhoto.Web.UI.Models.Photo>
+﻿@model ApplicationPhoto.Web.UI.Models.ViewModel.PhotoPageViewModel
 
 @{
     ViewData["Title"] = "Vos photos";
@@ -10,9 +10,26 @@
     <a asp-action="Create">Ajouter photo</a>
 </p>
 <div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if (@Model.CurrentPage > 1)
+            {
+                <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {id= Model.IdVoyage, page = Model.CurrentPage - 1 })">Previous</a></li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" href="@Url.Action("Index", new {id= Model.IdVoyage, page = i })">@i</a></li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item"><a class="page-link" href="@Url.Action("Index", new { id= Model.IdVoyage, page=Model.CurrentPage + 1 })">Next</a></li>
+            }
+        </ul>
+    </nav>
+
     <div class="row justify-content-center">
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Photos)
           {
 
       
